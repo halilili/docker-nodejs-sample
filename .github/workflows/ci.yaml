@@ -18,32 +18,47 @@ on:
 
 
 jobs:
-
    # Run unit tests to make sure everything is 👍
-   test-job:
-      name: 'Run Unit Tests'
-      defaults:
-         run:
-           shell: bash
-           # Define the working directory for all run steps in the workflow
-           working-directory: ./src
-      # Specify the OS we want the workflow to run on
-      runs-on: ubuntu-latest
-      # Define the steps for this job
-      steps:
-      - uses: actions/checkout@v4
-        name: 'Checkout repository'
+   build:
+     name: 'Build, Compile, Test and Linting'
+    # Specify the OS we want the workflow to run on
+     runs-on: ubuntu-latest
+     defaults:
+        run:
+          shell: bash
+          # Define the working directory for all run steps in the workflow
+          working-directory: ./src
+     strategy:
+       matrix:
+         node-version: [18.x]
+         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+     steps:
+    
+     - uses: actions/checkout@v2
+       name: 'Checkout repository'
+      
+      
+     - name: Setup/Use Node with version ${{ matrix.node-version }}
+       uses: actions/setup-node@v2
+       with:
+         node-version: ${{ matrix.node-version }}
+         cache: 'npm'
         
-        
-      - name: 'Install dependencies'
-        run: npm install
-        
-        
-      - name: 'Run the Test'
-        run: npm run test
+     - run: npm ci
+       name: 'Install Dependencies'
+      
+     - run: npm run build --if-present
+       name: 'Build and Compile'
+
+     - name: 'Run the Test'
+       run: npm run test
+
+   
         
    # Run the linter to check for code style issues
    lint:
+     needs: build
      name: 'Run linter for code analysis'
      defaults:
        run:
@@ -61,40 +76,11 @@ jobs:
      - name: 'Run Linter'
        run: npx standard -v
 
-   build-job:
-     name: 'Build'
-    # Specify the OS we want the workflow to run on
-     runs-on: ubuntu-latest
-
-     strategy:
-       matrix:
-         node-version: [18.x]
-         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-     steps:
-    
-     - uses: actions/checkout@v2
-       name: 'Checkout repository'
-      
-      
-     - name: Use Node.js ${{ matrix.node-version }}
-       uses: actions/setup-node@v2
-       with:
-         node-version: ${{ matrix.node-version }}
-         cache: 'npm'
-        
-     - run: npm ci
-       name: 'Install Dependencies'
-      
-     - run: npm run build --if-present
-       name: 'Build and Compile'
-      
-     - run: npm test
 
 
    docker:
      name: 'Build and Push Docker'
-     needs: build-job
+     needs: build
      runs-on: ubuntu-latest
      steps:
        - name: Checkout
