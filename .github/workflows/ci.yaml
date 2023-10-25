@@ -18,72 +18,107 @@ on:
 
 
 jobs:
-  build-job:
-    #defaults:
-      #run:
-        #shell: bash
-        # Define the working directory for all run steps in the workflow
-        #working-directory: ./src
+
+   # Run unit tests to make sure everything is 👍
+   test-job:
+      name: 'Run Unit Tests'
+      defaults:
+         run:
+           shell: bash
+           # Define the working directory for all run steps in the workflow
+           working-directory: ./src
+      # Specify the OS we want the workflow to run on
+      runs-on: ubuntu-latest
+      # Define the steps for this job
+      steps:
+      - uses: actions/checkout@v4
+        name: 'Checkout repository'
         
-    # Specify the OS we want the workflow to run on
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
+        
+      - name: 'Install dependencies'
+        run: npm install
+        
+        
+      - name: 'Run the Test'
+        run: npm run test
+        
+   # Run the linter to check for code style issues
+   lint:
+     name: 'Run linter for code analysis'
+     defaults:
+       run:
+         shell: bash
+         # Define the working directory for all run steps in the workflow
+         working-directory: ./web
+     runs-on: ubuntu-latest
+     steps:    
+     - uses: actions/checkout@v4
+       name: 'Checkout repository'
     
-    - uses: actions/checkout@v2
-      name: 'Checkout repository'
+     - name: 'Install Dependencies'
+       run: npm install
+
+     - name: 'Run Linter'
+       run: npx standard -v
+
+   build-job:
+     name: 'Build'
+    # Specify the OS we want the workflow to run on
+     runs-on: ubuntu-latest
+
+     strategy:
+       matrix:
+         node-version: [18.x]
+         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+     steps:
+    
+     - uses: actions/checkout@v2
+       name: 'Checkout repository'
       
       
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v2
+       with:
+         node-version: ${{ matrix.node-version }}
+         cache: 'npm'
         
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+     - run: npm ci
+       name: 'Install Dependencies'
+      
+     - run: npm run build --if-present
+       name: 'Build and Compile'
+      
+     - run: npm test
 
 
-    #- name: Build and Push Docker Image to Docker Repo
-      #uses: mr-smithers-excellent/docker-build-push@v4
-      #with:
-        #image: hassanali70826/docker-nodejs-app
-        #registry: docker.io
-        #username: ${{ secrets.DOCKER_USERNAME }}
-        #password: ${{ secrets.DOCKER_PASSWORD }}
-        #dockerfile: Dockerfile
+   docker:
+     name: 'Build and Push Docker'
+     needs: build-job
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v3
+      
+       - name: Set up QEMU
+         uses: docker/setup-qemu-action@v3
 
+         
+       - name: Set up Docker Buildx
+         uses: docker/setup-buildx-action@v3
 
-  docker:
-    needs: build-job
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: hassanali70826/docker-nodejs-app:latest
+         
+       - name: Login to Docker Hub
+         uses: docker/login-action@v3
+         with:
+           username: ${{ secrets.DOCKER_USERNAME }}
+           password: ${{ secrets.DOCKER_PASSWORD }}
+
+           
+       - name: Build and push
+         uses: docker/build-push-action@v5
+         with:
+           context: .
+           push: true
+           tags: hassanali70826/docker-nodejs-app:latest
         
