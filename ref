@@ -1,0 +1,10 @@
+Install docker desktop on ubuntu
+https://docs.docker.com/desktop/install/ubuntu/#install-docker-desktop
+
+Sign in to Docker Desktop
+https://docs.docker.com/desktop/get-started/#credentials-management-for-linux-users
+
+
+Containerize a Node.js application:
+https://docs.docker.com/language/nodejs/containerize/
+
