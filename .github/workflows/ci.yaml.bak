@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-job:
-    name: 'Build and Prepare Application'
+    nam: 'Build and Prepare Application'
     defaults:
       run:
         shell: bash
