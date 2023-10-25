@@ -61,6 +61,7 @@ jobs:
 
 
   docker:
+    needs: build-job
     runs-on: ubuntu-latest
     steps:
       -
