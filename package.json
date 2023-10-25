@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "prettify": "prettier -l --write \"**/*.js\"",
-    "test": "jest",
-    "dev": "nodemon --inspect=0.0.0.0:9229 -L src/index.js"
+  "scripts":{
+   "start":"node src/index.js",
+   "lint":"eslint .",
+   "prettify": "prettier -l --write \"**/*.js\"",
+   "test": "jest",
+   "dev": "nodemon --inspect=0.0.0.0:9229 -L src/index.js",
+   "clean":"rm -rf dist",
+   "prebuild":"rm -rf dist",
+   "postbuild":"echo 'Build completed successfully!'"
+   //"format":"prettier --write .",
+   //"deploy":"rsync -avz --delete ./dist/ user@myserver.com:/var/www/myapp",
   },
   "dependencies": {
     "express": "^4.18.2",
