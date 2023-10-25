@@ -64,9 +64,13 @@ git reset --hard
 git pull
 
 
+
 Clone the sample application to use with this guide. Open a terminal, change directory to a directory that you want to work in, and run the following command to clone the repository:
 
 $ git clone https://github.com/docker/docker-nodejs-sample
+
+
+
 Test the application without Docker (optional)
 You can test the application locally without Docker before you continue building and running the application with Docker. This section requires you to have Node.js 18 installed on your machine. Download and install Node.js.
 
@@ -130,6 +134,10 @@ $ docker compose up --build -d
 Open a browser and view the application at http://localhost:3000.
 
 You should see a simple todo application.
+
+In the terminal, run the following command to stop the application.
+
+$ docker compose down
 
 In the terminal, run the following command to stop the application.
 
