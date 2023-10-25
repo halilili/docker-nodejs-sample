@@ -58,7 +58,7 @@ jobs:
         
    # Run the linter to check for code style issues
    lint:
-     needs: build
+     #needs: build
      name: 'Run linter for code analysis'
      defaults:
        run:
@@ -80,7 +80,7 @@ jobs:
 
    docker:
      name: 'Build and Push Docker'
-     needs: build
+     needs: [build, lint]
      runs-on: ubuntu-latest
      steps:
        - name: Checkout
