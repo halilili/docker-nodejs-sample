@@ -19,35 +19,41 @@ on:
 
 jobs:
   build-job:
-    name: 'Build and Prepare Application'
-    defaults:
-      run:
-        shell: bash
+    #defaults:
+      #run:
+        #shell: bash
         # Define the working directory for all run steps in the workflow
-        working-directory: ./src
+        #working-directory: ./src
         
     # Specify the OS we want the workflow to run on
     runs-on: ubuntu-latest
-    
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
+    
     - uses: actions/checkout@v2
       name: 'Checkout repository'
       
-    - name: Node Js
-      uses: actions/setup-node@v1
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
       with:
-        node-version: 18.0.0
-
-      
-    - name: 'Install dependencies'
-      run: nmp install    
-      
-
-    - name: Build and Push Docker Image
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    
+    - name: Build and Push Docker Image to Docker Repo
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
         image: hassanali70826/docker-nodejs-app
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-         
+        dockerfile: Dockerfile       
