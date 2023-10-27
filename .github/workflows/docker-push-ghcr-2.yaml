@@ -1,4 +1,4 @@
-name: Docker Build Push GHCR 2
+name: Docker Build Push GHCR -2
 
 on:
   workflow_dispatch:
