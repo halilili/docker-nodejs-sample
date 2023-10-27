@@ -110,7 +110,7 @@ jobs:
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
-       - name: Extract Docker metadata
+       - name: Extract Docker metadata  ${{ env.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
          id: meta
          uses: docker/metadata-action@v4.0.1
          with:
