@@ -29,10 +29,6 @@ jobs:
      name: 'Build, Compile, Test and Linting'
     # Specify the OS we want the workflow to run on
      runs-on: ubuntu-latest
-     # remove the permission will lead to a Forbidden error 403
-     permissions:
-      contents: read
-      packages: write
      defaults:
         run:
           shell: bash
@@ -93,6 +89,10 @@ jobs:
      name: 'Build and Push Docker'
      needs: [build, lint]
      runs-on: ubuntu-latest
+     # remove the permission will lead to a Forbidden error 403
+     permissions:
+      contents: read
+      packages: write
      steps:
        - name: Checkout
          uses: actions/checkout@v3
