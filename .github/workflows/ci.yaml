@@ -23,7 +23,6 @@ jobs:
      name: 'Build, Compile, Test and Linting'
     # Specify the OS we want the workflow to run on
      runs-on: ubuntu-latest
-     continue-on-error: true
      defaults:
         run:
           shell: bash
@@ -36,7 +35,7 @@ jobs:
 
      steps:
     
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v4
        name: 'Checkout repository'
       
       
@@ -67,6 +66,7 @@ jobs:
          # Define the working directory for all run steps in the workflow
          working-directory: ./src
      runs-on: ubuntu-latest
+     continue-on-error: true
      steps:    
      - uses: actions/checkout@v4
        name: 'Checkout repository'
