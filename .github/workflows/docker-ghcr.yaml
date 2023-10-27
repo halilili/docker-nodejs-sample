@@ -23,6 +23,15 @@ jobs:
     - name: Login to GHCR
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
+    - name: Build and push Docker image
+      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: ${{ matrix.platforms }}
+        push: true
+        outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My multi-arch image
+
     - name: Build and Push Docker Image
       run: |
         docker build -t ghcr.io/${{ github.repository }}/my-app:latest .
