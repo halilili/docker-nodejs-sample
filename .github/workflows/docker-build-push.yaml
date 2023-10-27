@@ -75,6 +75,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
 
+
+      - name: Get Repository Name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        
       #- name: Lowercase the repo name and username
         #run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
