@@ -127,7 +127,7 @@ jobs:
              type=semver,pattern={{major}}
              type=sha
       
-       - name: Build and push
+       - name: Build and push to ${{ env.REGISTRY }} OR Docker.io if we want
          uses: docker/build-push-action@v5
          with:
            registry: ${{ env.REGISTRY }}
