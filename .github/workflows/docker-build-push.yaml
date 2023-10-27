@@ -17,6 +17,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  REPO_NAME: ${{ github.event.repository.name }}
   
 jobs:
   docker:
@@ -35,7 +36,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-          #ghcr.io/${{ github.repository }}/${{ github.repository_name }}
+           ghcr.io/${{ github.repository }}/${{ REPO_NAME }}
           # generate Docker tags based on the following events/attributes
           #name/app
           #ghcr.io/username/app  
