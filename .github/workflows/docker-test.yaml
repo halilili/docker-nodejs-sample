@@ -1,0 +1,31 @@
+runs-on: ubuntu-latest
+
+steps:
+  -
+    name: Set up QEMU
+    uses: docker/setup-qemu-action@v2
+  -
+    name: Set up Docker Buildx
+    uses: docker/setup-buildx-action@v2
+  -
+    name: Login to Docker Hub
+    uses: docker/login-action@v2
+    with:
+      username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      password: ${{ secrets.DOCKER_HUB_PW }}
+
+  - name: Extract metadata (tags, labels) for Docker
+    id: meta
+    uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+    with:
+      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+
+-
+  name: Build and push - with version
+  uses: docker/build-push-action@v3
+  with:
+    context: "{{defaultContext}}"
+    push: true
+    tags: ${{ steps.meta.outputs.tags }}
+    labels: ${{ steps.meta.outputs.labels }}
