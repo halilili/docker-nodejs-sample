@@ -39,7 +39,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ github.repository_name }}
+          images: ghcr.io/halilili/docker-nodejs-sample/my-app   #${{ env.REGISTRY }}/${{ github.repository }}/${{ github.repository_name }}
           #ghcr.io/halilili/docker-nodejs-sample/my-app:latest
     
     
