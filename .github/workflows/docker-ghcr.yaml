@@ -1,6 +1,7 @@
 name: Push Docker Image to GHCR
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - none
