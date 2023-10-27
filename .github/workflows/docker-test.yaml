@@ -22,6 +22,11 @@ env:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    # remove the permission will lead to a Forbidden error 403
+    #Error: buildx failed with: ERROR: failed to solve: failed to push ghcr.io/halilili/docker-nodejs-sample/docker-nodejs-sample:main: unexpected status from POST request to https://ghcr.io/v2/halilili/docker-nodejs-sample/docker-nodejs-sample/blobs/uploads/: 403 Forbidden
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
