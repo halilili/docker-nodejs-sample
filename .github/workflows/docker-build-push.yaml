@@ -35,7 +35,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-           ghcr.io/${{ github.repository }}/${{ REPO_NAME }}
+           ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}
           # generate Docker tags based on the following events/attributes
           #name/app
           #ghcr.io/username/app  
@@ -73,10 +73,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
-
-      - name: Get Repository Name
-        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
         
       #- name: Lowercase the repo name and username
         #run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
