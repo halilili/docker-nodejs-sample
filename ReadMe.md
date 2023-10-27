@@ -143,3 +143,15 @@ In the terminal, run the following command to stop the application.
 
 content_copy
 $ docker compose down
+
+
+Some problems in Build and push Docker to ghcr:
+
+1) Error: buildx failed with: ERROR: failed to solve: failed to push ghcr.io/halilili/docker-nodejs-sample/docker-nodejs-sample:main: unexpected status from POST request to https://ghcr.io/v2/halilili/docker-nodejs-sample/docker-nodejs-sample/blobs/uploads/: 403 Forbidden
+
+In .github/workflows/docker-build-push.yaml
+   The solution is to add the permission:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
