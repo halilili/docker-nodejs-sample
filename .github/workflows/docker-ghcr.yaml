@@ -44,6 +44,7 @@ jobs:
         #registry: ghcr.io
         context: .
         file: ./Dockerfile
+        tags: ghcr.io/halilili/docker-nodejs-sample/my-app:latest
         #platforms: ${{ matrix.platforms }}
         push: true
         #outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My multi-arch image
