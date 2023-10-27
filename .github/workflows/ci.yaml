@@ -114,7 +114,7 @@ jobs:
          id: meta
          uses: docker/metadata-action@v4.0.1
          with:
-           images:  hassanali70826/${{ env.IMAGE_NAME }}
+           images:  ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository_name }}
            # set latest tag for master branch
            tags: |
              type=schedule
