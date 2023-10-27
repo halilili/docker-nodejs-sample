@@ -109,7 +109,10 @@ jobs:
            file: ./Dockerfile
            push: true
            platforms: linux/amd64,linux/arm64,linux/386
-           tags: hassanali70826/docker-nodejs-app:${{ steps.vars.outputs.tag }}    #${{ env.BRANCH }}
+           tags: |
+                ${{ secrets.DOCKER_HUB_USERNAME }}/docker-nodejs-app:${{ steps.vars.outputs.tag }}
+                ${{ secrets.DOCKER_HUB_USERNAME }}/docker-nodejs-app:latest
+           #tags: hassanali70826/docker-nodejs-app:${{ env.BRANCH }}
            #build-args: |
              #BRANCH=${{ env.BRANCH }}           
         
