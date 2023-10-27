@@ -106,6 +106,10 @@ jobs:
          uses: docker/build-push-action@v5
          with:
            context: .
+           file: ./Dockerfile
            push: true
-           tags: hassanali70826/docker-nodejs-app:latest
+           platforms: linux/amd64,linux/arm64,linux/386
+           tags: hassanali70826/docker-nodejs-app:${GITHUB_REF##*/}
+           build-args: |
+             BRANCH=${GITHUB_REF##*/}           
         
