@@ -107,11 +107,15 @@ jobs:
          with:
            context: .
            file: ./Dockerfile
+           #push: ${{ github.event_name != 'pull_request' }}
            push: true
            #platforms: linux/amd64,linux/arm64,linux/386
-           tags: |
-                ${{ secrets.DOCKER_USERNAME }}/docker-nodejs-app:${{ steps.vars.outputs.tag }}
-                ${{ secrets.DOCKER_USERNAME }}/docker-nodejs-app:latest
+           tags: hassanali70826/docker-nodejs-app:latest
+           #tags: ${{ steps.meta.outputs.tags }}
+           #labels: ${{ steps.meta.outputs.labels }}
+           #tags: |
+                #${{ secrets.DOCKER_USERNAME }}/docker-nodejs-app:${{ steps.vars.outputs.tag }}
+                #${{ secrets.DOCKER_USERNAME }}/docker-nodejs-app:latest
            #tags: hassanali70826/docker-nodejs-app:${{ env.BRANCH }}
            #build-args: |
              #BRANCH=${{ env.BRANCH }}           
