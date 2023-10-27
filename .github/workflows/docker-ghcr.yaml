@@ -46,7 +46,7 @@ jobs:
         file: ./Dockerfile
         #platforms: ${{ matrix.platforms }}
         push: true
-        outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My multi-arch image
+        #outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My multi-arch image
 
 
 
