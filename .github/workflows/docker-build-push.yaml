@@ -24,13 +24,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+        
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ github.repository }}/docker-node-app
+            ghcr.io/${{ github.repository }}/${{ github.repository_name }}
           # generate Docker tags based on the following events/attributes
           #name/app
           #ghcr.io/username/app  
