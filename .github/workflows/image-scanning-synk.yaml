@@ -90,7 +90,7 @@ jobs:
       with:
         image: ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
         args: --file=Dockerfile --severity-threshold=high --sarif-file-output=snyk.sarif
-
+        json: true
 
     # Upload SARIF file to GitHub Code Scanning Alerts
     - name: Upload result to GitHub Code Scanning
