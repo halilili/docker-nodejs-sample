@@ -77,6 +77,7 @@ jobs:
       run: docker build -t ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }} .
       
     - name: Run Snyk to check/scan Docker image for vulnerabilities 🐳
+      id: run-analysis
       # Snyk can be used to break the build when it detects vulnerabilities.
       # In this case we want to upload the issues to GitHub Code Scanning
       continue-on-error: true
@@ -89,8 +90,19 @@ jobs:
       with:
         image: ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
         args: --file=Dockerfile --severity-threshold=high --sarif-file-output=snyk.sarif
-        
+
+
+    # Upload SARIF file to GitHub Code Scanning Alerts
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: snyk.sarif
+        #sarif_file: snyk.sarif
+        sarif_file: ${{ steps.run-analysis.outputs.snyk.sarif }}
+        
+
+    # Upload SARIF file as an Artifact to download and view
+    # - name: Upload SARIF as an Artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: sarif-file
+    #     path: ${{ steps.run-analysis.outputs.sarif }}
