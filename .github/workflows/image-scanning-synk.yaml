@@ -98,7 +98,7 @@ jobs:
       with:
         #sarif_file: snyk.sarif
         sarif_file: ${{ steps.run-analysis.outputs.snyk.sarif }}
-        
+        wait-for-processing: true
 
     # Upload SARIF file as an Artifact to download and view
     # - name: Upload SARIF as an Artifact
