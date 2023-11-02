@@ -102,7 +102,7 @@ jobs:
 
     - uses: garethr/snyk-to-sarif@master
     - name: 'Upload SARIF file as an Artifact to download and view'
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: SARIF
         path: snyk.sarif
