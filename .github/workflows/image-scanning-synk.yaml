@@ -97,7 +97,7 @@ jobs:
       uses: github/codeql-action/upload-sarif@v2
       with:
         #sarif_file: snyk.sarif
-        sarif_file: ${{ steps.run-analysis.outputs.sarif_file }}
+        sarif_file: ${{ steps.run-analysis.outputs.snyk.sarif }}
         
 
     # Upload SARIF file as an Artifact to download and view
