@@ -65,7 +65,17 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         args: --sarif-file-output=snyk.sarif
+        
+    # Upload SARIF file to GitHub Code Scanning Alerts
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: snyk.sarif
+        wait-for-processing: true
+
+    - uses: garethr/snyk-to-sarif@master
+    - name: 'Upload SARIF file as an Artifact to download and view'
+      uses: actions/upload-artifact@v2
+      with:
+        name: SARIF
+        path: snyk.sarif
