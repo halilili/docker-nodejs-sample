@@ -1,4 +1,4 @@
-name: Image Scanning With Synk
+name: SNYK Conainter Scanning - SAST/SCA And Image Scanning
 
 on:
   workflow_dispatch:
