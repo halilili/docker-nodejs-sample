@@ -48,17 +48,15 @@ jobs:
     - name: Snyk Authenticatin
       run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-    - name: 'SCA Open-Source scanning'
-      run: snyk test
-      continue-on-error: true
-
     - name: 'SAST Source-Code scanning'
       run: snyk code test
       continue-on-error: true
-    
+
+    #- name: 'SCA Open-Source scanning'
+      #run: snyk test
         
     - uses: actions/checkout@master
-    - name: Run Snyk to check for vulnerabilities
+    - name: Run Snyk SCA Open-Source scanning vulnerabilities
       uses: snyk/actions/node@master
       continue-on-error: true # To make sure that SARIF upload gets called
       env:
