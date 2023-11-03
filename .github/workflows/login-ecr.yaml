@@ -16,4 +16,4 @@ jobs:
           username: ${{ secrets.AWS_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         env:
-          AWS_REGION: <region>
+          AWS_REGION: <region> 
