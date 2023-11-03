@@ -57,8 +57,8 @@ jobs:
       run: snyk code test
       continue-on-error: true
 
-    #- name: 'SCA Open-Source scanning'
-      #run: snyk test
+    - name: 'SCA Open-Source scanning'
+      run: snyk test
         
     - uses: actions/checkout@master
     - name: Run Snyk SCA Open-Source scanning vulnerabilities
