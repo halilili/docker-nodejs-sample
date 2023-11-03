@@ -1,0 +1,73 @@
+name: SNYK SCA/SAST SCANNING
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+jobs:
+
+  security:
+    #Specify the OS we want the workflow to run on
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash
+         # Define the working directory for all run steps in the workflow
+        #working-directory: ./src
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+
+    steps:
+
+    - uses: actions/checkout@v4
+      name: 'Checkout Repository'
+
+    - name: Setup/Use Node with version ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+
+    - name: 'Install Dependencies'
+      run: npm install #ci
+      
+
+
+    - name: Install Synk CLI
+      run: npm install -g snyk
+
+    - name: Snyk Authenticatin
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: 'SCA Open-Source scanning'
+      run: snyk test
+
+    - name: 'SAST Source-Code scanning'
+      run: snyk code test
+
+    
+        
+    - uses: actions/checkout@master
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      continue-on-error: true # To make sure that SARIF upload gets called
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --sarif-file-output=snyk.sarif
+    - name: Upload result to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: snyk.sarif
