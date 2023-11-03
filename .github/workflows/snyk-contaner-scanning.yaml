@@ -89,7 +89,7 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
-        args: --file=Dockerfile --severity-threshold=high --sarif-file-output=snyk.sarif
+        args: --file=Dockerfile --sarif-file-output=snyk.sarif  #--severity-threshold=high
         json: true
 
     # Upload SARIF file to GitHub Code Scanning Alerts
