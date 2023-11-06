@@ -1,5 +1,6 @@
 name: Code Repo Scan with Trivy
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
