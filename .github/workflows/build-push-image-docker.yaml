@@ -20,7 +20,8 @@ env:
   
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    #runs-on: ubuntu-latest
     # remove the permission will lead to a Forbidden error 403
     permissions:
       contents: read
